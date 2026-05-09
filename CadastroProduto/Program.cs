@@ -1,25 +1,18 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-
-
-
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+ 
 var app = builder.Build();
-
-
-
-// Configure the HTTP request pipeline.
+ 
 if (app.Environment.IsDevelopment())
 {
     
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+ 
 app.UseHttpsRedirection();
 
 var produtos = new List<Produto>()
@@ -28,8 +21,11 @@ var produtos = new List<Produto>()
     new Produto { Id = 2, Nome = "Calça Jeans", Preco = 119.99m, Estoque = 5 },
     new Produto { Id = 3, Nome = "Blusa de frio", Preco = 250.99m, Estoque = 30 }
 };
+app.MapControllers();
 
-app.MapGet("/produtos", () =>{ 
+
+app.MapGet("/produtos", () =>
+{ 
     return produtos;
 });
 
@@ -69,7 +65,7 @@ app.MapDelete("/produtos/{Id}", (int Id) =>
 });
 app.Run();
 
-class Produto
+public class Produto
 {
     public int Id { get; set; }
     public string Nome { get; set; }
